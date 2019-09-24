@@ -1,5 +1,6 @@
-package com.alvarobrey
+package com.alvarobrey.mqm
 
+import com.alvarobrey.mqm.db.QuoteDAO
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -41,6 +42,12 @@ fun Application.module(testing: Boolean = false) {
     routing {
         get("/status") {
             call.respond(mapOf("ok" to true))
+        }
+        get("/quotes") {
+            call.respond(mapOf(
+                "ok" to true,
+                "result" to QuoteDAO.all()
+            ))
         }
     }
 }
