@@ -1,6 +1,7 @@
 package com.alvarobrey.mqm
 
 import com.alvarobrey.mqm.db.QuoteDAO
+import com.alvarobrey.mqm.model.Quote
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -11,8 +12,10 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
+import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.routing
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -44,10 +47,22 @@ fun Application.module(testing: Boolean = false) {
             call.respond(mapOf("ok" to true))
         }
         get("/quotes") {
-            call.respond(mapOf(
-                "ok" to true,
-                "result" to QuoteDAO.all()
-            ))
+            call.respond(
+                mapOf(
+                    "ok" to true,
+                    "result" to QuoteDAO.all()
+                )
+            )
+        }
+        post("/quote") {
+            val quote = call.receive<Quote>()
+            QuoteDAO.save(quote)
+            call.respond(
+                mapOf(
+                    "ok" to true,
+                    "result" to quote
+                )
+            )
         }
     }
 }
