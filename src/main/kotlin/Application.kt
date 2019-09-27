@@ -38,6 +38,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(StatusPages) {
         exception<RuntimeException> { ex ->
+            call.application.environment.log.error(ex.message ?: "", ex)
             call.respond(HttpStatusCode.InternalServerError, mapOf("ok" to false, "error" to (ex.message ?: "")))
         }
     }
