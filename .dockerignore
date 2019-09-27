@@ -1,3 +1,8 @@
-.idea
-.gradle
-gradle
+.idea/
+.gradle/
+gradle/
+build/
+LICENSE.md
+gradlew
+gradlew.bat
+.gitignore
