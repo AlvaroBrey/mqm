@@ -1,11 +1,16 @@
 version: '3'
 
 services:
+  mongo:
+    image: mongo:4.2
+    restart: on-failure
   mqm-api:
     build: ./mqm-api
     image: mqm-api:latest
+    restart: on-failure
   mqm-ui:
     build: ./mqm-ui
     image: mqm-ui:latest
+    restart: on-failure
     ports:
       - "8081:80"
