@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  mqm-api:
+    build: ./mqm-api
+    image: mqm-api:latest
+  mqm-ui:
+    build: ./mqm-ui
+    image: mqm-ui:latest
