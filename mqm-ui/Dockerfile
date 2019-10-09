@@ -11,8 +11,10 @@ RUN yarn build
 FROM nginx:alpine
 LABEL maintainer="alvaro.brv@gmail.com"
 
-WORKDIR /root
-
 RUN rm /etc/nginx/conf.d/default.conf
-ADD docker/nginx.conf /etc/nginx/conf.d/nginx.conf
+ADD docker/nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
+ADD docker/entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
+
 COPY --from=0 /root/dist/ /usr/share/nginx/html

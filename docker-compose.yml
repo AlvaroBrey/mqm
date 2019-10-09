@@ -7,3 +7,5 @@ services:
   mqm-ui:
     build: ./mqm-ui
     image: mqm-ui:latest
+    ports:
+      - "8081:80"
