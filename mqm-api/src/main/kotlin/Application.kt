@@ -16,6 +16,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.post
+import io.ktor.routing.route
 import io.ktor.routing.routing
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -44,26 +45,28 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        get("/status") {
-            call.respond(mapOf("ok" to true))
-        }
-        get("/quotes") {
-            call.respond(
-                mapOf(
-                    "ok" to true,
-                    "result" to QuoteDAO.all()
+        route("/v1") {
+            get("/status") {
+                call.respond(mapOf("ok" to true))
+            }
+            get("/quotes") {
+                call.respond(
+                        mapOf(
+                                "ok" to true,
+                                "result" to QuoteDAO.all()
+                        )
                 )
-            )
-        }
-        post("/quote") {
-            val quote = call.receive<Quote>()
-            QuoteDAO.save(quote)
-            call.respond(
-                mapOf(
-                    "ok" to true,
-                    "result" to quote
+            }
+            post("/quote") {
+                val quote = call.receive<Quote>()
+                QuoteDAO.save(quote)
+                call.respond(
+                        mapOf(
+                                "ok" to true,
+                                "result" to quote
+                        )
                 )
-            )
+            }
         }
     }
 }
